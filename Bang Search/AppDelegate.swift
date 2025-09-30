@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Bang Search
 //
-//  Created by Benjamin Melchior-Kongsmar on 19/09/2025.
+//  Created by Benjamin on 19/09/2025.
 //
 
 import Cocoa

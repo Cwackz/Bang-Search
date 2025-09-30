@@ -1,0 +1,16 @@
+{
+  "!yt": "https://www.youtube.com/results?search_query=",
+  "!g": "https://www.google.com/search?q=",
+  "!gi": "https://www.google.com/search?tbm=isch&q=",
+  "!gs": "https://scholar.google.com/scholar?q=",
+  "!w": "https://en.wikipedia.org/wiki/Special:Search?search=",
+  "!gh": "https://github.com/search?q=",
+  "!so": "https://stackoverflow.com/search?q=",
+  "!r": "https://www.reddit.com/search/?q=",
+  "!tw": "https://twitter.com/search?q=",
+  "!a": "https://www.amazon.com/s?k=",
+  "!maps": "https://maps.google.com/maps?q=",
+  "!news": "https://news.google.com/search?q=",
+  "!translate": "https://translate.google.com/?text=",
+  "!imdb": "https://www.imdb.com/find?q="
+}

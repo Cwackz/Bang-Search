@@ -1,11 +1,300 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="popup.css">
-    <script type="module" src="popup.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            width: 380px;
+            padding: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #1d1d1f;
+            background: #ffffff;
+            margin: 0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e5e5e7;
+            padding-bottom: 16px;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin: 0 0 4px 0;
+        }
+        
+        .header p {
+            color: #86868b;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .shortcuts-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin: 0 0 12px 0;
+        }
+        
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .shortcut-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            background: #f5f5f7;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        
+        .shortcut-code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            background: #007aff;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 11px;
+            margin-right: 6px;
+            min-width: 32px;
+            text-align: center;
+        }
+        
+        .shortcut-desc {
+            color: #424245;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .custom-section {
+            border-top: 1px solid #e5e5e7;
+            padding-top: 16px;
+            margin-top: 16px;
+        }
+        
+        .input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        input[type="text"], input[type="url"] {
+            border: 1px solid #d2d2d7;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 13px;
+            font-family: inherit;
+            background: white;
+        }
+        
+        input[type="text"] {
+            width: 70px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-weight: 500;
+        }
+        
+        input[type="url"] {
+            flex: 1;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+        
+        .btn {
+            background: #007aff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 11px;
+            background: #ff3b30;
+        }
+        
+        .btn-small:hover {
+            background: #d70015;
+        }
+        
+        .custom-shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            background: #f5f5f7;
+            border-radius: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .example {
+            font-size: 11px;
+            color: #86868b;
+            margin-top: 6px;
+            font-style: italic;
+        }
+        
+        .usage-info {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f0f8ff 100%);
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+            font-size: 12px;
+            color: #1565c0;
+        }
+        
+        .usage-info strong {
+            color: #0d47a1;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #86868b;
+            font-size: 12px;
+            padding: 16px;
+        }
+    </style>
 </head>
 <body>
-    <strong>Hello World!</strong>
+    <div class="header">
+        <h1>🔍 Bang Search</h1>
+        <p>Custom search shortcuts for Safari</p>
+    </div>
+
+    <div class="shortcuts-section">
+        <h2 class="section-title">Built-in Shortcuts</h2>
+        <div class="shortcut-grid">
+            <div class="shortcut-item">
+                <span class="shortcut-code">!yt</span>
+                <span class="shortcut-desc">YouTube</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-code">!g</span>
+                <span class="shortcut-desc">Google</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-code">!gi</span>
+                <span class="shortcut-desc">Google Images</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-code">!gs</span>
+                <span class="shortcut-desc">Google Scholar</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-code">!w</span>
+                <span class="shortcut-desc">Wikipedia</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-code">!gh</span>
+                <span class="shortcut-desc">GitHub</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-code">!so</span>
+                <span class="shortcut-desc">Stack Overflow</span>
+            </div>
+            <div class="shortcut-item">
+                <span class="shortcut-code">!r</span>
+                <span class="shortcut-desc">Reddit</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-section">
+        <h2 class="section-title">Active Shortcuts</h2>
+        <div id="custom-shortcuts-container"></div>
+    </div>
+
+    <div class="usage-info">
+        <strong>How to use:</strong> Type your shortcut + space + search term in any search box.<br>
+        <span class="shortcut-code" style="background: #1565c0;">!yt cats playing</span> → searches YouTube
+    </div>
+
+    <script>
+        // Cross-browser API shim
+        if (typeof window.browser === 'undefined' && typeof window.chrome !== 'undefined') {
+            window.browser = {
+                runtime: chrome.runtime
+            };
+        }
+
+        let loadedShortcuts = {};
+
+        // Load custom shortcuts
+        async function loadCustomShortcuts() {
+            loadedShortcuts = {};
+            try {
+                const res = await browser.runtime.sendMessage({ action: 'getShortcutsFromJson' });
+                loadedShortcuts = res && res.shortcuts ? res.shortcuts : {};
+            } catch (_) {}
+            displayCustomShortcuts();
+        }
+
+        // Display custom shortcuts
+        function displayCustomShortcuts() {
+            const container = document.getElementById('custom-shortcuts-container');
+            
+            if (Object.keys(loadedShortcuts).length === 0) {
+                container.innerHTML = '<div class="empty-state">No custom shortcuts yet</div>';
+                return;
+            }
+
+            let html = '<h3 class="section-title" style="margin-top: 16px;">Your Shortcuts</h3>';
+            
+            for (const [shortcut, url] of Object.entries(loadedShortcuts)) {
+                const hostname = getHostname(url);
+                html += `
+                    <div class="custom-shortcut-item">
+                        <div>
+                            <span class="shortcut-code">${shortcut}</span>
+                            <span class="shortcut-desc">${hostname}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Helper function to get hostname
+        function getHostname(url) {
+            try {
+                return new URL(url).hostname.replace('www.', '');
+            } catch (e) {
+                return url;
+            }
+        }
+
+        // Initialize
+        loadCustomShortcuts();
+    </script>
 </body>
 </html>

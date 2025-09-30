@@ -1,42 +1,47 @@
-//
-//  SafariWebExtensionHandler.swift
-//  Bang Search Extension
-//
-//  Created by Benjamin Melchior-Kongsmar on 19/09/2025.
-//
-
 import SafariServices
-import os.log
+import OSLog
 
 class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
-
+    
     func beginRequest(with context: NSExtensionContext) {
-        let request = context.inputItems.first as? NSExtensionItem
-
-        let profile: UUID?
-        if #available(iOS 17.0, macOS 14.0, *) {
-            profile = request?.userInfo?[SFExtensionProfileKey] as? UUID
-        } else {
-            profile = request?.userInfo?["profile"] as? UUID
+        guard let item = context.inputItems.first as? NSExtensionItem else {
+            NSLog("No input items in extension request")
+            context.completeRequest(returningItems: nil, completionHandler: nil)
+            return
         }
-
-        let message: Any?
-        if #available(iOS 15.0, macOS 11.0, *) {
-            message = request?.userInfo?[SFExtensionMessageKey]
-        } else {
-            message = request?.userInfo?["message"]
-        }
-
-        os_log(.default, "Received message from browser.runtime.sendNativeMessage: %@ (profile: %@)", String(describing: message), profile?.uuidString ?? "none")
-
+        let message = item.userInfo?[SFExtensionMessageKey]
+        
+        NSLog("Received message from content script: \(String(describing: message))")
+        
         let response = NSExtensionItem()
-        if #available(iOS 15.0, macOS 11.0, *) {
-            response.userInfo = [ SFExtensionMessageKey: [ "echo": message ] ]
-        } else {
-            response.userInfo = [ "message": [ "echo": message ] ]
-        }
-
-        context.completeRequest(returningItems: [ response ], completionHandler: nil)
+        response.userInfo = [SFExtensionMessageKey: ["response": "Message received"]]
+        
+        context.completeRequest(returningItems: [response], completionHandler: nil)
     }
-
+    
+    // Handle storage operations
+    func handleStorageRequest(_ request: [String: Any], context: NSExtensionContext) {
+        guard let action = request["action"] as? String else { return }
+        
+        let defaults = UserDefaults(suiteName: "group.com.yourname.bangsearch")
+        
+        switch action {
+        case "getShortcuts":
+            let shortcuts = defaults?.dictionary(forKey: "customShortcuts") ?? [:]
+            let response = NSExtensionItem()
+            response.userInfo = [SFExtensionMessageKey: ["shortcuts": shortcuts]]
+            context.completeRequest(returningItems: [response], completionHandler: nil)
+            
+        case "setShortcuts":
+            if let shortcuts = request["shortcuts"] as? [String: String] {
+                defaults?.set(shortcuts, forKey: "customShortcuts")
+                let response = NSExtensionItem()
+                response.userInfo = [SFExtensionMessageKey: ["success": true]]
+                context.completeRequest(returningItems: [response], completionHandler: nil)
+            }
+            
+        default:
+            break
+        }
+    }
 }
